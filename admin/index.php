@@ -59,12 +59,15 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
     <div class="wrapper">
         <div class="container">
@@ -85,66 +88,86 @@
                         </div>
                         <ul class="left__menu">
                             <li class="left__menuItem">
-                                <a href="index.php?dashboard" class="left__title"><img src="assets/icon-dashboard.svg" alt="">Dashboard</a>
+                                <a href="index.php?dashboard" class="left__title"><img src="assets/icon-dashboard.svg"
+                                        alt="">Dashboard</a>
                             </li>
                             <li class="left__menuItem">
-                                <div class="left__title"><img src="assets/icon-tag.svg" alt="">Sản Phẩm<img class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__title"><img src="assets/icon-tag.svg" alt="">Tồn kho<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
                                 <div class="left__text">
-                                    <a class="left__link" href="index.php?insert_products">Chèn Sản Phẩm</a>
-                                    <a class="left__link" href="index.php?view_products">Xem Sản Phẩm</a>
+                                    <a class="left__link" href="index.php?view_quantity_size_products">Số lượng Sản
+                                        Phẩm</a>
                                 </div>
                             </li>
                             <li class="left__menuItem">
-                                <div class="left__title"><img src="assets/icon-edit.svg" alt="">Danh Mục SP<img class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__title"><img src="assets/icon-tag.svg" alt="">Sản Phẩm<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__text">
+                                    <a class="left__link" href="index.php?insert_products">Chèn Sản Phẩm</a>
+                                    <a class="left__link" href="index.php?view_products">Xem Sản Phẩm</a>
+                                    <a class="left__link" href="index.php?view_quantity_size_products">Số lượng Sản
+                                        Phẩm</a>
+                                </div>
+                            </li>
+                            <li class="left__menuItem">
+                                <div class="left__title"><img src="assets/icon-edit.svg" alt="">Danh Mục SP<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
                                 <div class="left__text">
                                     <a class="left__link" href="index.php?insert_p_category">Chèn Danh Mục</a>
                                     <a class="left__link" href="index.php?view_p_categories">Xem Danh Mục</a>
                                 </div>
                             </li>
                             <li class="left__menuItem">
-                                <div class="left__title"><img src="assets/icon-book.svg" alt="">Thể Loại<img class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__title"><img src="assets/icon-book.svg" alt="">Thể Loại<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
                                 <div class="left__text">
                                     <a class="left__link" href="index.php?insert_category">Chèn Thể Loại</a>
                                     <a class="left__link" href="index.php?view_categories">Xem Thể Loại</a>
                                 </div>
                             </li>
                             <li class="left__menuItem">
-                                <div class="left__title"><img src="assets/icon-settings.svg" alt="">Slide<img class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__title"><img src="assets/icon-settings.svg" alt="">Slide<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
                                 <div class="left__text">
                                     <a class="left__link" href="index.php?insert_slide">Chèn Slide</a>
                                     <a class="left__link" href="index.php?view_slides">Xem Slide</a>
                                 </div>
                             </li>
                             <li class="left__menuItem">
-                                <div class="left__title"><img src="assets/icon-book.svg" alt="">Coupons<img class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__title"><img src="assets/icon-book.svg" alt="">Coupons<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
                                 <div class="left__text">
                                     <a class="left__link" href="index.php?insert_coupon">Chèn Coupon</a>
                                     <a class="left__link" href="index.php?view_coupons">Xem Coupons</a>
                                 </div>
                             </li>
                             <li class="left__menuItem">
-                                <a href="index.php?view_customers" class="left__title"><img src="assets/icon-users.svg" alt="">Khách Hàng</a>
+                                <a href="index.php?view_customers" class="left__title"><img src="assets/icon-users.svg"
+                                        alt="">Khách Hàng</a>
                             </li>
                             <li class="left__menuItem">
-                                <a href="index.php?view_orders" class="left__title"><img src="assets/icon-book.svg" alt="">Đơn Đặt Hàng</a>
+                                <a href="index.php?view_orders" class="left__title"><img src="assets/icon-book.svg"
+                                        alt="">Đơn Đặt Hàng</a>
                             </li>
                             <li class="left__menuItem">
-                                <div class="left__title"><img src="assets/icon-user.svg" alt="">Admin<img class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
+                                <div class="left__title"><img src="assets/icon-user.svg" alt="">Admin<img
+                                        class="left__iconDown" src="assets/arrow-down.svg" alt=""></div>
                                 <div class="left__text">
                                     <a class="left__link" href="index.php?insert_user">Chèn Admin</a>
                                     <a class="left__link" href="index.php?view_users">Xem Admins</a>
                                 </div>
                             </li>
                             <li class="left__menuItem">
-                                <a href="logout.php" class="left__title"><img src="assets/icon-logout.svg" alt="">Đăng Xuất</a>
+                                <a href="logout.php" class="left__title"><img src="assets/icon-logout.svg" alt="">Đăng
+                                    Xuất</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="right">
                     <div class="right__content">
-                
-                    <?php 
+
+                        <?php 
         
                         //dashboard
         
@@ -165,6 +188,18 @@
                         if(isset($_GET['view_products'])){
         
                             include("view_products.php");
+        
+                        }
+
+                        if(isset($_GET['view_quantity_size_products'])){
+        
+                            include("view_quantity_size_products.php");
+        
+                        }
+
+                        if(isset($_GET['insert_quantity_size_products'])){
+        
+                            include("insert_quantity_size_products.php");
         
                         }
                         
@@ -374,8 +409,16 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+    </script>
 </body>
+
 </html>
 <?php } ?>

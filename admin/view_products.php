@@ -19,17 +19,17 @@
                     <th>Tên sản phẩm</th>
                     <th>Hình ảnh</th>
                     <th>Giá SP</th>
+                    <th>SL SP</th>
                     <th>Đã bán</th>
-                    <th>Còn lại</th>
                     <th>Từ khoá</th>
                     <th>Thời gian</th>
                     <th>Sửa</th>
                     <th>Xoá</th>
                 </tr>
             </thead>
-    
+
             <tbody>
-                        
+
                 <?php
 
                     $i=0;
@@ -58,15 +58,17 @@
                         $product_sale = $row_products['product_sale'];
                         $product_sale_format = number_format((float)$product_sale, 0, ',', '.');
 
-                        $product_total = $row_products['product_total'];
-
+                        $product_quantity_size_s = $row_products['product_quantity_size_s'];
+                        $product_quantity_size_m = $row_products['product_quantity_size_m'];
+                        $product_quantity_size_l = $row_products['product_quantity_size_l'];
                         $i++;
 
                 ?>
                 <tr>
                     <td data-label="STT"><?php echo $i;?></td>
                     <td data-label="Tên sản phẩm"><?php echo $product_title; ?></td>
-                    <td data-label="Hình ảnh"><img src="<?php echo $product_image_1; ?>" alt="<?php echo $product_image_1; ?>"></td>
+                    <td data-label="Hình ảnh"><img src="<?php echo $product_image_1; ?>"
+                            alt="<?php echo $product_image_1; ?>"></td>
                     <td data-label="Giá SP">
                         <?php
 
@@ -80,8 +82,13 @@
                             }
                         
                         ?>
-                                
-                    ₫</td>
+
+                        ₫</td>
+                    <td>
+                        <p>Size S:<?=$product_quantity_size_s;?></p>
+                        <p>Size M:<?=$product_quantity_size_s;?></p>
+                        <p>Size L:<?=$product_quantity_size_s;?></p>
+                    </td>
                     <td data-label="Đã bán">
                         <?php 
                                 
@@ -106,11 +113,14 @@
                             
                         ?>
                     </td>
-                    <td data-label="Còn lại"><?php echo $product_total; ?></td>
                     <td data-label="Từ khoá"><?php echo $product_keywords; ?></td>
                     <td data-label="Thời gian"><?php echo $product_date; ?></td>
-                    <td data-label="Sửa" class="right__iconTable"><a href="index.php?edit_product=<?php echo $product_id; ?>"><img src="assets/icon-edit.svg" alt=""></a></td>
-                    <td data-label="Xoá" class="right__iconTable"><a href="index.php?delete_product=<?php echo $product_id; ?>"><img src="assets/icon-trash-black.svg" alt=""></a></td>
+                    <td data-label="Sửa" class="right__iconTable"><a
+                            href="index.php?edit_product=<?php echo $product_id; ?>"><img src="assets/icon-edit.svg"
+                                alt=""></a></td>
+                    <td data-label="Xoá" class="right__iconTable"><a
+                            href="index.php?delete_product=<?php echo $product_id; ?>"><img
+                                src="assets/icon-trash-black.svg" alt=""></a></td>
                 </tr>
                 <?php } ?>
             </tbody>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 26, 2023 lúc 08:29 AM
+-- Thời gian đã tạo: Th1 05, 2024 lúc 07:53 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.1.25
 
@@ -122,9 +122,10 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_email`, `customer_phone`, `customer_address`, `customer_password`, `customer_image`, `customer_ip`) VALUES
-(28, 'User Test', 'user@gmail.com', '0123456789', 'HCM', '$2y$10$UKYpGB1LAmMXe1Fv9NfiH.FWiV0kZ0UzylPEpp1CIyDNGA6FfeUI2', '00080-1278471066.png', '::1'),
+(28, 'User Test', 'user@gmail.com', '0123456789', 'HCM', '$2y$10$UKYpGB1LAmMXe1Fv9NfiH.FWiV0kZ0UzylPEpp1CIyDNGA6FfeUI2', '186459515_515604526308215_5245455360375216631_n.jpg', '::1'),
 (30, 'User1', 'user1@gmail.com', '028395', 'abc', '$2y$10$1pcJc8Cr/nqROifWaHGk.eprkyGv3nsfPp./SMFsEmWCL1YjST0b2', '2023-10-04_02-58-33.png', '::1'),
-(36, 'demo', 'demo@gmail.com', '0938290761', 'Thá»§ Ä‘á»©c', '$2y$10$hTtxI4ccb5R.EHnXRvT00.s7eQmkbMys223nxEeY3IAZm9q1SGiXW', 'demo.jpg', '::1');
+(31, 'abc', 'abc@gmail.com', '0123456789', 'abc', '$2y$10$sP3naXkmq2SNv5QJlhvno.FSU9Pec.EPIEWHTZjV3t1yzAh0mSMQC', '00074-4146499890.png', '::1'),
+(32, 'demo', 'demo@gmail.com', '0938290761', '64 Thá»§ Äá»©c , Tp Há»“ ChÃ­ Minh', '$2y$10$9t9zVSuljCjvGSwcq9eYwuqxYomrVM5mlvSxaqnerN2CgkukcpZgG', 'de_bai_tap.jpg', '::1');
 
 -- --------------------------------------------------------
 
@@ -136,7 +137,7 @@ CREATE TABLE `customer_orders` (
   `order_id` int(10) NOT NULL,
   `customer_id` int(10) NOT NULL,
   `due_amount` int(100) NOT NULL,
-  `invoice_no` int(100) NOT NULL,
+  `invoice_no` varchar(255) NOT NULL,
   `product_id` int(10) NOT NULL,
   `product_size` varchar(255) NOT NULL,
   `product_quantity` int(10) NOT NULL,
@@ -149,10 +150,11 @@ CREATE TABLE `customer_orders` (
 --
 
 INSERT INTO `customer_orders` (`order_id`, `customer_id`, `due_amount`, `invoice_no`, `product_id`, `product_size`, `product_quantity`, `order_date`, `order_status`) VALUES
-(181, 28, 2950000, 1937725512, 32, '2', 5, '2023-12-25', 'Complete'),
-(182, 28, 2760000, 36258805, 26, '1', 4, '2023-12-26', 'Complete'),
-(185, 36, 2360000, 998296015, 33, '2', 4, '2023-12-26', 'Complete'),
-(187, 36, 1180000, 1480018182, 25, '2', 2, '2023-12-26', 'Pending');
+(2, 32, 5900000, 'DH_VNPAY441925', 33, '1', 10, '2024-01-03', 'Complete'),
+(3, 32, 5900000, 'DH_VNPAY108394', 33, '1', 10, '2024-01-03', 'Complete'),
+(5, 32, 5900000, 'DH_VNPAY944020', 33, '2', 10, '2024-01-03', 'Complete'),
+(6, 32, 8850000, 'DH_VNPAY442349', 33, '1', 15, '2024-01-03', 'Complete'),
+(7, 32, 5900000, 'DH160464', 33, '2', 10, '2024-01-04', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -174,28 +176,61 @@ CREATE TABLE `products` (
   `product_description` text NOT NULL,
   `product_label` text NOT NULL,
   `product_sale` varchar(255) NOT NULL,
-  `product_total` int(10) NOT NULL
+  `product_total` int(10) DEFAULT NULL,
+  `product_quantity_size_s` int(11) DEFAULT NULL,
+  `product_quantity_size_m` int(11) DEFAULT NULL,
+  `product_quantity_size_l` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_category_id`, `category_id`, `date`, `product_title`, `product_price`, `product_image_1`, `product_image_2`, `product_image_3`, `product_keywords`, `product_description`, `product_label`, `product_sale`, `product_total`) VALUES
-(19, 1, 2, '2020-10-20 02:52:29', 'Kota Dress', '650000', 'product_images/72126862_2399196567007918_36652662493544448_o.jpg', 'product_images/60337718_2294678607459715_7587335581248520192_o.jpg', 'product_images/72300551_2399191497008425_479029857280327680_o.jpg', 'dress, vay', 'BST mới nhất của Lalla lấy cảm hứng từ bộ phim Crash Landing on You - Hạ cánh nơi anh ✈️ với hình ảnh người phụ nữ hiện đại, năng động và đầy quyền lực. Chất tơ xốp Hàn bên ngoài và đầm lụa lót b&a', 'sale', '590000', 20),
-(21, 1, 2, '2021-01-03 09:10:49', 'Honu Dress', '590000', 'product_images/49274283_2207455782848665_5964890596895096832_o.jpg', 'product_images/49210956_2207455802848663_2798101486024785920_o.jpg', 'product_images/49210956_2207455802848663_2798101486024785920_o.jpg', 'dress, vay', 'Với gam màu pastel nhẹ nhàng : Trắng , hồng , xanh, chiếc đầm Honu dress của Lalla sẽ giúp bạn thật thanh lịch và nữ tính dù ở bất cứ đâu.\r\n\r\n <br><br><br>\r\n\r\n-Màu: xanh, hồng', 'new', '0', 19),
-(23, 1, 2, '2021-01-03 11:07:38', 'Jubi Jumpsuit', '590000', 'product_images/47084530_2183357158591861_4386413819816050688_o.jpg', 'product_images/47084963_2183357118591865_5765777940277100544_o.jpg', 'product_images/47084963_2183357118591865_5765777940277100544_o.jpg', 'dress, vay', 'Jumpsuit Jubi của #lalla thích hợp cho các cô gái yêu thích vẻ năng động, bồng bềnh nhưng vẫn cá tính đây !!!\r\nChất vải mỏng nhẹ , form jumpsuit vừa vặn tạo độ thoải', 'new', '0', 13),
-(24, 9, 2, '2021-01-03 09:10:49', 'Codo top, Taca skirt', '970000', 'product_images/53678183_2250640148530228_1014424498826379264_o.jpg', 'product_images/53488075_2250638645197045_8604971770719502336_o.jpg', 'product_images/53488075_2250638645197045_8604971770719502336_o.jpg', 'top skirt', 'Nếu bạn đang tìm bộ cánh thanh lịch mà vẫn sang chảnh thì đừng bỏ lỡ set trang phục này của Lalla nhé ❤️\r\n\r\n <br><br><br>\r\n\r\n- Màu:  Kem , đỏ', 'sale', '870000', 13),
-(25, 1, 2, '2023-12-26 07:21:46', 'Beda Dress', '590000', 'product_images/89021214_2535040043423569_2145711342630207488_o.jpg', 'product_images/87385314_2535040080090232_936441791245189120_o.jpg', 'product_images/87385314_2535040080090232_936441791245189120_o.jpg', 'dress, vay', 'Không gì cuốn hút hơn 1 cô gái mặc váy lụa đỏ ?vì khi ấy nàng như một đoá hồng rực rỡ và kiêu sa đến não lòng ...\r\n<br><br><br>\r\n \r\n\r\n- Màu: đỏ - rê', 'new', '0', 3),
-(26, 1, 2, '2023-12-26 04:46:11', 'Lino Dress', '690000', 'product_images/64828089_2338504446410464_7369705783019175936_o.jpg', 'product_images/67586870_2338504523077123_5408338306498822144_o.jpg', 'product_images/67091089_2338504719743770_1933520626560008192_o.jpg', 'dress, vay', 'Lalla chính thức lên kệ với những thiết kế nhẹ nhàng, trẻ trung và lãng đãng như chính tên gọi của BST.\r\n\r\n<br><br><br>\r\n\r\n- Màu: Xanh lá - Xanh cẩm thạch', 'new', '0', 30),
-(27, 9, 2, '2020-10-27 02:14:04', 'Cobi Top, Tuta Skirt', '900000', 'product_images/46514410_2178404795753764_580730220378587136_o.jpg', 'product_images/46485713_2178404872420423_524984813346619392_o.jpg', 'product_images/46519328_2178404842420426_1736984318959419392_o.jpg', 'top skirt', 'Thiết kế mới toanh trong BST mới của Lalla là chiếc áo Cobi top với chất voan lụa thoáng mát điểm xuyết chấm bi duyên dáng, Cobi Top 390.000, Tuta Skirt 420.000', 'sale', '810000', 38),
-(28, 9, 2, '2020-10-20 02:53:20', 'Nono Top, Nuno Skirt', '840000', 'product_images/65719129_2324549207805988_7892096113996464128_o.jpg', 'product_images/65370961_2324549577805951_8650683996709060608_o.jpg', 'product_images/65188678_2324549714472604_7817738556381593600_o.jpg', 'top skirt', 'Ngọt ngào nhưng vẫn vô cùng cá tính với những mẫu thiết kế mới nhất trong BST SUMMER VIBE của #Lalla', 'new', '0', 60),
-(30, 1, 2, '2020-10-20 02:53:25', 'Dada Dress', '690000', 'product_images/97478285_2596228327304740_6979566454387507200_o (1).jpg', 'product_images/96809365_2596228173971422_4155707954999328768_o.jpg', 'product_images/96809365_2596228173971422_4155707954999328768_o.jpg', 'dress, vay', 'BST mới nhất của Lalla lấy cảm hứng từ bộ phim Crash Landing on You - Hạ cánh nơi anh ✈️ với hình ảnh người phụ nữ hiện đại, năng động và đầy quyền lực. Chất tơ xốp Hàn bên ngoài và đầm lụa lót b&a', 'sale', '590000', 60),
-(31, 1, 2, '2023-12-26 05:32:29', 'Doly Dress', '590000', 'product_images/106719668.jpg', 'product_images/107693707.jpg', 'product_images/107663751.jpg', 'dress, vay', 'BST S/S 2020 của Lalla lấy cảm hứng từ khu vườn thiên nhiên với những sắc hoa pastel hồng, tím, baby blue nhẹ nhàng thanh thoát sẽ giúp mùa hè của bạn trở nên tươi trẻ và rực rỡ. Thiết kế độc quyền của thương hiệu thời trang Lalla. ', 'new', '0', 20),
-(32, 1, 2, '2023-12-25 06:51:53', 'Lola Dress', '690000', 'product_images/129841855_2778718839055687_4921207847791622071_o.jpg', 'product_images/129646589_2778719239055647_5672869489056169002_o.jpg', 'product_images/129938944_2778719585722279_3449075532910701693_o.jpg', 'dress, vay', 'XMAS PREMIUM COLLECTION là BST thời trang cao cấp độc quyền từ thương hiệu #Lalla của diễn viên MIDU ra mắt đặc biệt cho mùa lễ hội. Với tiêu chí Giá trị cao - Giá thành ưu đãi. Những sản phẩm của #Lalla luôn ưu tiên cho chất lượng, form dáng và giá thành vô cùng ưu đãi chỉ #590k', 'sale', '590000', 15),
-(33, 1, 2, '2023-12-26 05:46:28', 'Bata Dress', '590000', 'product_images/82196573_2481185252142382_7444610077085925376_o.jpg', 'product_images/81070717_2481184978809076_2107956170621714432_o.jpg', 'product_images/81090549_2481185388809035_7955383887327133696_o.jpg', 'dress, vay', 'Tết năm nay, hãy cùng Lalla, Midu và Jun Vũ tự tin trở thành người phụ nữ biết yêu thương và giải phóng chính bản thân mình bạn nhé.', 'new', '0', 0),
-(42, 1, 3, '2023-12-24 11:13:45', 'test', '10', 'product_images/00626-3406267920.jpeg', 'product_images/1673123459489.png', 'product_images/01117-meinahentai_v4_3598435873.jpeg', 'test', 'abc', 'new', '0', 13),
-(43, 1, 3, '2023-12-24 11:49:09', 'abc', '100000', 'product_images/186459515_515604526308215_5245455360375216631_n.jpg', 'product_images/186482556_515604609641540_9169753060581580273_n.jpg', 'product_images/191536238_828649614743008_410575894211826925_n.jpg', 'abc', 'abc', 'new', '10000', 30);
+INSERT INTO `products` (`product_id`, `product_category_id`, `category_id`, `date`, `product_title`, `product_price`, `product_image_1`, `product_image_2`, `product_image_3`, `product_keywords`, `product_description`, `product_label`, `product_sale`, `product_total`, `product_quantity_size_s`, `product_quantity_size_m`, `product_quantity_size_l`) VALUES
+(19, 1, 2, '2024-01-05 06:38:53', 'Kota Dress', '650000', 'product_images/72126862_2399196567007918_36652662493544448_o.jpg', 'product_images/60337718_2294678607459715_7587335581248520192_o.jpg', 'product_images/72300551_2399191497008425_479029857280327680_o.jpg', 'dress, vay', 'BST mới nhất của Lalla lấy cảm hứng từ bộ phim Crash Landing on You - Hạ cánh nơi anh ✈️ với hình ảnh người phụ nữ hiện đại, năng động và đầy quyền lực. Chất tơ xốp Hàn bên ngoài và đầm lụa lót b&a', 'sale', '590000', 20, 147, 127, 120),
+(21, 1, 2, '2024-01-03 08:00:14', 'Honu Dress', '590000', 'product_images/49274283_2207455782848665_5964890596895096832_o.jpg', 'product_images/49210956_2207455802848663_2798101486024785920_o.jpg', 'product_images/49210956_2207455802848663_2798101486024785920_o.jpg', 'dress, vay', 'Với gam màu pastel nhẹ nhàng : Trắng , hồng , xanh, chiếc đầm Honu dress của Lalla sẽ giúp bạn thật thanh lịch và nữ tính dù ở bất cứ đâu.\r\n\r\n <br><br><br>\r\n\r\n-Màu: xanh, hồng', 'new', '0', 19, 14, 50, 24),
+(23, 1, 2, '2024-01-03 08:00:25', 'Jubi Jumpsuit', '590000', 'product_images/47084530_2183357158591861_4386413819816050688_o.jpg', 'product_images/47084963_2183357118591865_5765777940277100544_o.jpg', 'product_images/47084963_2183357118591865_5765777940277100544_o.jpg', 'dress, vay', 'Jumpsuit Jubi của #lalla thích hợp cho các cô gái yêu thích vẻ năng động, bồng bềnh nhưng vẫn cá tính đây !!!\r\nChất vải mỏng nhẹ , form jumpsuit vừa vặn tạo độ thoải', 'new', '0', 13, 10, 15, 22),
+(24, 9, 2, '2024-01-03 08:00:37', 'Codo top, Taca skirt', '970000', 'product_images/53678183_2250640148530228_1014424498826379264_o.jpg', 'product_images/53488075_2250638645197045_8604971770719502336_o.jpg', 'product_images/53488075_2250638645197045_8604971770719502336_o.jpg', 'top skirt', 'Nếu bạn đang tìm bộ cánh thanh lịch mà vẫn sang chảnh thì đừng bỏ lỡ set trang phục này của Lalla nhé ❤️\r\n\r\n <br><br><br>\r\n\r\n- Màu:  Kem , đỏ', 'sale', '870000', 13, 20, 11, 23),
+(25, 1, 2, '2024-01-03 08:00:47', 'Beda Dress', '590000', 'product_images/89021214_2535040043423569_2145711342630207488_o.jpg', 'product_images/87385314_2535040080090232_936441791245189120_o.jpg', 'product_images/87385314_2535040080090232_936441791245189120_o.jpg', 'dress, vay', 'Không gì cuốn hút hơn 1 cô gái mặc váy lụa đỏ ?vì khi ấy nàng như một đoá hồng rực rỡ và kiêu sa đến não lòng ...\r\n<br><br><br>\r\n \r\n\r\n- Màu: đỏ - rê', 'new', '0', 5, 15, 5, 24),
+(26, 1, 2, '2024-01-03 11:53:34', 'Lino Dress', '690000', 'product_images/64828089_2338504446410464_7369705783019175936_o.jpg', 'product_images/67586870_2338504523077123_5408338306498822144_o.jpg', 'product_images/67091089_2338504719743770_1933520626560008192_o.jpg', 'dress, vay', 'Lalla chính thức lên kệ với những thiết kế nhẹ nhàng, trẻ trung và lãng đãng như chính tên gọi của BST.\r\n\r\n<br><br><br>\r\n\r\n- Màu: Xanh lá - Xanh cẩm thạch', 'new', '0', 34, 50, 21, 3),
+(27, 9, 2, '2024-01-03 08:01:15', 'Cobi Top, Tuta Skirt', '900000', 'product_images/46514410_2178404795753764_580730220378587136_o.jpg', 'product_images/46485713_2178404872420423_524984813346619392_o.jpg', 'product_images/46519328_2178404842420426_1736984318959419392_o.jpg', 'top skirt', 'Thiết kế mới toanh trong BST mới của Lalla là chiếc áo Cobi top với chất voan lụa thoáng mát điểm xuyết chấm bi duyên dáng, Cobi Top 390.000, Tuta Skirt 420.000', 'sale', '810000', 37, 20, 10, 12),
+(28, 9, 2, '2024-01-03 08:01:25', 'Nono Top, Nuno Skirt', '840000', 'product_images/65719129_2324549207805988_7892096113996464128_o.jpg', 'product_images/65370961_2324549577805951_8650683996709060608_o.jpg', 'product_images/65188678_2324549714472604_7817738556381593600_o.jpg', 'top skirt', 'Ngọt ngào nhưng vẫn vô cùng cá tính với những mẫu thiết kế mới nhất trong BST SUMMER VIBE của #Lalla', 'new', '0', 59, 11, 12, 13),
+(30, 1, 2, '2024-01-03 08:01:36', 'Dada Dress', '690000', 'product_images/97478285_2596228327304740_6979566454387507200_o (1).jpg', 'product_images/96809365_2596228173971422_4155707954999328768_o.jpg', 'product_images/96809365_2596228173971422_4155707954999328768_o.jpg', 'dress, vay', 'BST mới nhất của Lalla lấy cảm hứng từ bộ phim Crash Landing on You - Hạ cánh nơi anh ✈️ với hình ảnh người phụ nữ hiện đại, năng động và đầy quyền lực. Chất tơ xốp Hàn bên ngoài và đầm lụa lót b&a', 'sale', '590000', 59, 5, 8, 10),
+(31, 1, 2, '2024-01-05 06:23:29', 'Doly Dress', '590000', 'product_images/106719668.jpg', 'product_images/107693707.jpg', 'product_images/107663751.jpg', 'dress, vay', 'BST S/S 2020 của Lalla lấy cảm hứng từ khu vườn thiên nhiên với những sắc hoa pastel hồng, tím, baby blue nhẹ nhàng thanh thoát sẽ giúp mùa hè của bạn trở nên tươi trẻ và rực rỡ. Thiết kế độc quyền của thương hiệu thời trang Lalla. ', 'new', '0', 6, 40, 23, 27),
+(32, 1, 2, '2024-01-05 06:25:02', 'Lola Dress', '690000', 'product_images/129841855_2778718839055687_4921207847791622071_o.jpg', 'product_images/129646589_2778719239055647_5672869489056169002_o.jpg', 'product_images/129938944_2778719585722279_3449075532910701693_o.jpg', 'dress, vay', 'XMAS PREMIUM COLLECTION là BST thời trang cao cấp độc quyền từ thương hiệu #Lalla của diễn viên MIDU ra mắt đặc biệt cho mùa lễ hội. Với tiêu chí Giá trị cao - Giá thành ưu đãi. Những sản phẩm của #Lalla luôn ưu tiên cho chất lượng, form dáng và giá thành vô cùng ưu đãi chỉ #590k', 'sale', '590000', 2, 14, 10, 25),
+(33, 1, 2, '2024-01-05 06:44:00', 'Bata Dress', '590000', 'product_images/82196573_2481185252142382_7444610077085925376_o.jpg', 'product_images/81070717_2481184978809076_2107956170621714432_o.jpg', 'product_images/81090549_2481185388809035_7955383887327133696_o.jpg', 'dress, vay', 'Tết năm nay, hãy cùng Lalla, Midu và Jun Vũ tự tin trở thành người phụ nữ biết yêu thương và giải phóng chính bản thân mình bạn nhé.', 'new', '0', -188, 45, 40, 80);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `products_quantity_size`
+--
+
+CREATE TABLE `products_quantity_size` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_quantity_s` int(11) DEFAULT NULL,
+  `product_quantity_m` int(11) DEFAULT NULL,
+  `product_quantity_l` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `products_quantity_size`
+--
+
+INSERT INTO `products_quantity_size` (`id`, `product_id`, `product_quantity_s`, `product_quantity_m`, `product_quantity_l`) VALUES
+(1, 19, 147, 127, 120),
+(2, 21, 14, 50, 24),
+(3, 23, 10, 15, 22),
+(4, 24, 20, 11, 23),
+(5, 25, 15, 5, 24),
+(6, 26, 50, 21, 3),
+(7, 27, 20, 10, 12),
+(8, 28, 11, 12, 13),
+(9, 30, 5, 8, 10),
+(10, 31, 50, 23, 27),
+(11, 32, 14, 18, 25),
+(12, 33, 45, 40, 80);
 
 -- --------------------------------------------------------
 
@@ -284,6 +319,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`);
 
 --
+-- Chỉ mục cho bảng `products_quantity_size`
+--
+ALTER TABLE `products_quantity_size`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `product_categories`
 --
 ALTER TABLE `product_categories`
@@ -309,7 +350,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+  MODIFY `cart_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -327,19 +368,25 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT cho bảng `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `customer_orders`
 --
 ALTER TABLE `customer_orders`
-  MODIFY `order_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `order_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
   MODIFY `product_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT cho bảng `products_quantity_size`
+--
+ALTER TABLE `products_quantity_size`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `product_categories`

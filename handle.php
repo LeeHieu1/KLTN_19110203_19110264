@@ -106,15 +106,15 @@ function successful_registration($customer_email)
         $mail->Port       = 587; 
 
         //Recipients
-        $mail->setFrom('sangwebsite1992@gmail.com', 'Sang nè');
-        $mail->addAddress($customer_email, 'SangNguyen');
+        $mail->setFrom('adlallatest@gmail.com', 'Admin Lalla');
+        $mail->addAddress($customer_email, 'User');
         $mail->isHTML(true);
 
         $mail->isHTML(true);
         $mail->Subject = 'Đăng ký thành công';
         $mail->Body    = '<p>Hello bạn,<br><br>Chúc bạn có một ngày mới tốt lành!</p>';
         $mail->AltBody = "Hello bạn,\n\nChúc bạn có một ngày mới tốt lành!\n\n";
-        $mail->Body .= '<p>Bạn đã đăng ký thành công tài khoản, Đăng nhập bằng link sau<a href="http://localhost/shopthoitrang/customer/login.php">Link đổi mật khẩu</a></p>'; // Thay đổi link này thành trang của bạn
+        $mail->Body .= '<p>Bạn đã đăng ký thành công tài khoản, Đăng nhập bằng link sau<a href="http://localhost/shopthoitrang/customer/login.php">Link đăng nhập</a></p>'; // Thay đổi link này thành trang của bạn
 
         $mail->smtpConnect(array(
             "ssl" => array(

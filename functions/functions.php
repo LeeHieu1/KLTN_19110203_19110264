@@ -1,5 +1,6 @@
 <?php
     $servername = "localhost:3307";
+    //$servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "shopthoitrang";
@@ -28,119 +29,108 @@
     }
 
     // add cart
-
     function add_cart() {
-
         global $conn;
-
+    
         if (isset($_GET['add_cart'])) {
-
             $ip_add = getRealIpUser();
-
             $product_id = $_GET['add_cart'];
-
             $product_size = $_POST['product_size'];
+            $cus_gmail = $_POST['cus_gmail'];
 
             $product_quantity = $_POST['product_quantity'];
-
-            $check_product = "SELECT * FROM cart WHERE ip_add='$ip_add' AND product_id='$product_id'";
-            
-            $run_check = mysqli_query($conn, $check_product);
-
-            $count_check = mysqli_num_rows($run_check);
-
-            if ($count_check > 0) {
-                echo "<script>alert('Thêm vào giỏ hàng thành công'); window.location='cart.php';</script>";
-                exit();
-            }
-
-            // if ($count_check>0) {
-
-            //     echo "
-            //         <div class='popup'>
-            //             <div class='popup__content'>
-            //                 <div class='popup__image'>
-            //                     <img src='assets/icon-location.svg' alt='>
-            //                 </div>
-
-            //                 <div class='popup__text'>
-            //                     <h4 class='popup__title'>Thêm vào giỏ thành công</h4>
-            //                     <p class='popup__desc'>Sản phẩm này đã được thêm vào giỏ hàng</p>
-            //                 </div>
-                            
-            //                 <a href='cart.php' class='popup__btn'>Chuyển đến giỏ hàng</a>
-            //             </div>
-            //         </div>
-            //     ";
-
-            //     //echo "<script>window.open('details.php?product_id=$product_id','_self')</script>";
-                
-            //     exit();
-            // }
-
+    
+            // Lấy thông tin sản phẩm từ bảng products
             $get_product = "SELECT * FROM products WHERE product_id='$product_id'";
-
             $run_product = mysqli_query($conn, $get_product);
-
             $row_product = mysqli_fetch_array($run_product);
-
-                $product_total = $row_product['product_total'];
-
-            if ($product_total < $product_quantity) {
+    
+            // Lấy thông tin sản phẩm từ bảng products_quantity_size
+            $get_product_size = "SELECT * FROM products_quantity_size WHERE product_id='$product_id'";
+            $run_product_size = mysqli_query($conn, $get_product_size);
+            $row_product_size = mysqli_fetch_array($run_product_size);
+    
+            // Lấy số lượng tương ứng với kích thước đã chọn
+            switch ($product_size) {
+                case '1':
+                    $product_quantity_size = $row_product['product_quantity_size_s'];
+                    $product_quantity_size_all = $row_product_size['product_quantity_s'];
+                    break;
+                case '2':
+                    $product_quantity_size = $row_product['product_quantity_size_m'];
+                    $product_quantity_size_all = $row_product_size['product_quantity_m'];
+                    break;
+                case '3':
+                    $product_quantity_size = $row_product['product_quantity_size_l'];
+                    $product_quantity_size_all = $row_product_size['product_quantity_l'];
+                    break;
+                default:
+                    break;
+            }
+    
+            // Kiểm tra số lượng tồn kho
+            if ($product_quantity_size < $product_quantity ) {
                 echo "
                     <div class='popup'>
-                        <div class='popup__content'>
-                            <div class='popup__image'>
-                                <img src='assets/icon-location.svg' alt='>
-                            </div>
-
-                            <div class='popup__text'>
-                                <h4 class='popup__title'>Kho hàng còn lại không đủ</h4>
-                                <p class='popup__desc'>Số lượng bạn đã chọn lớn hơn kho hàng còn lại của chúng tôi, vui lòng thay đổi số lượng.</p>
-                            </div>
-                            
-                            <a href='details.php?product_id=$product_id' class='popup__btn'>Đồng ý</a>
-                        </div>
+                        <p>Số lượng trong kho không đủ </p>
                     </div>
                 ";
-
                 exit();
-            }
-            
-            else {
-
-                $get_price = "SELECT * from products where product_id='$product_id'";
-
-                $run_price = mysqli_query($conn, $get_price);
-
-                $row_price = mysqli_fetch_array($run_price);
-
-                    $product_label = $row_price['product_label'];
-
-                    $product_sale = $row_price['product_sale'];
-
-                    $product_price = $row_price['product_price'];
-
-                    if ($product_label == "sale") {
-
-                        $product_price = $product_sale;
-
-                    } else {
-
-                        $product_price = $product_price;
-
-                    }
-
-
-                $query = "insert into cart (product_id, ip_add, p_size, p_price, p_quantity) values ('$product_id', '$ip_add', '$product_size', '$product_price', '$product_quantity')";
-
-                $run_query = mysqli_query($conn, $query);
-
-                echo "<script>window.open('details.php?product_id=$product_id','_self')</script>";
+            } else {
+                // Cập nhật số lượng trong bảng products
+                $new_quantity = $product_quantity_size - $product_quantity;
+                switch ($product_size) {
+                    case '1':
+                        $update_products = "UPDATE products SET product_quantity_size_s='$new_quantity' WHERE product_id='$product_id'";
+                        break;
+                    case '2':
+                        $update_products = "UPDATE products SET product_quantity_size_m='$new_quantity' WHERE product_id='$product_id'";
+                        break;
+                    case '3':
+                        $update_products = "UPDATE products SET product_quantity_size_l='$new_quantity' WHERE product_id='$product_id'";
+                        break;
+                    default:
+                        break;
+                }
+                mysqli_query($conn, $update_products);
+    
+                // Cập nhật số lượng trong bảng products_quantity_size
+                $new_quantity_all = $product_quantity_size_all - $product_quantity;
+                switch ($product_size) {
+                    case '1':
+                        $update_product_size = "UPDATE products_quantity_size SET product_quantity_s='$new_quantity_all' WHERE product_id='$product_id'";
+                        break;
+                    case '2':
+                        $update_product_size = "UPDATE products_quantity_size SET product_quantity_m='$new_quantity_all' WHERE product_id='$product_id'";
+                        break;
+                    case '3':
+                        $update_product_size = "UPDATE products_quantity_size SET product_quantity_l='$new_quantity_all' WHERE product_id='$product_id'";
+                        break;
+                    default:
+                        break;
+                }
+                mysqli_query($conn, $update_product_size);
+                
+                mysqli_query($conn, $update_product_size);
+    
+                // Thêm sản phẩm vào giỏ hàng
+                $product_price = $row_product['product_price'];
+                $query = "INSERT INTO cart (product_id, ip_add, p_size, p_price, p_quantity,cus_gmail) 
+                            VALUES ('$product_id', '$ip_add', '$product_size', '$product_price', '$product_quantity','$cus_gmail')";
+                mysqli_query($conn, $query);
+                echo "<script>";
+                    echo "alert('Thêm vào giỏ hàng thành công');";
+                    // echo "window.open('details.php?product_id=$product_id','_self');";
+                    echo "window.open('cart.php','_self');";
+                echo "</script>";
             }
         }
     }
+    
+    // delete cart
 
+    
+    
     // get items
 
     function items() {

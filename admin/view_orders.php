@@ -13,7 +13,7 @@
 <p class="right__desc">Xem đơn hàng</p>
 <div class="right__table">
     <div class="right__tableWrapper">
-        <table>
+        <table id="example">
             <thead>
                 <tr>
                     <th>STT</th>
@@ -30,9 +30,9 @@
                     <th>Thanh toán</th>
                 </tr>
             </thead>
-    
+
             <tbody>
-                            
+
                 <?php 
 
                     $i=0;
@@ -91,7 +91,7 @@
                     <td data-label="Ngày"><?= $order_date; ?></td>
                     <td data-label="Tổng"><?= $order_amount_format; ?> ₫</td>
                     <td data-label="Trạng thái">
-                    <?php 
+                        <?php 
                                     
                         if($order_status=='Pending') {
                             
@@ -105,14 +105,18 @@
                                 
                     ?>
                     </td>
-                    <td data-label="Xoá" class="right__iconTable"><a href="index.php?delete_order=<?= $order_id; ?>"><img src="assets/icon-trash-black.svg" alt=""></a></td>
+                    <td data-label="Xoá" class="right__iconTable"><a
+                            href="index.php?delete_order=<?= $order_id; ?>"><img src="assets/icon-trash-black.svg"
+                                alt=""></a></td>
                     <td>
-                    <a href="view_orders_in.php?code_orders=<?= $invoice_no; ?>" target="_blank">In</a>  
+                        <a href="view_orders_in.php?code_orders=<?= $invoice_no; ?>" target="_blank">In</a>
 
                     </td>
                     <td data-label="Thanh toán" class="right__confirm">
-                        <a href="index.php?confirm_yes=<?= $order_id; ?>" class="right__iconTable"><img src="assets/icon-check.svg" alt=""></a>
-                        <a href="index.php?confirm_no=<?= $order_id; ?>" class="right__iconTable"><img src="assets/icon-x.svg" alt=""></a>
+                        <a href="index.php?confirm_yes=<?= $order_id; ?>" class="right__iconTable"><img
+                                src="assets/icon-check.svg" alt=""></a>
+                        <a href="index.php?confirm_no=<?= $order_id; ?>" class="right__iconTable"><img
+                                src="assets/icon-x.svg" alt=""></a>
                     </td>
                 </tr>
                 <?php } ?>

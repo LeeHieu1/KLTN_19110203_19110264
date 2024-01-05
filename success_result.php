@@ -6,6 +6,15 @@
     include("functions/functions.php");
 
 ?>
+<?php
+    if (isset($_SESSION['customer_email'])) {
+        $session_email = $_SESSION['customer_email'];
+        $get_customer = "SELECT * from customers where customer_email='$session_email'";
+        $run_customer = mysqli_query($conn, $get_customer);
+        $row_customer = mysqli_fetch_array($run_customer);
+        $customer_id = $row_customer['customer_id'];
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,25 +35,16 @@
         
     } else {
 
-    
 ?>
-
     <?php
 
-    if (isset($_GET['customer_id'])) {
-
-        $customer_id = $_GET['customer_id'];
-
-    }
-
     $ip_add = getRealIpUser();
-    $status = "Pending";
-    $invoice_no = 'DH' . mt_rand(10000, 999999);
+    $status = "Complete";
+    $invoice_no = 'DH_VNPAY' . mt_rand(10000, 999999);
     $get_cart = "SELECT * from cart where ip_add='$ip_add'";
     $run_cart = mysqli_query($conn, $get_cart);
     while ($row_cart = mysqli_fetch_array($run_cart)) {
         $product_id = $row_cart['product_id'];
-
         $product_size = $row_cart['p_size'];
         $product_quantity = $row_cart['p_quantity'];
         $product_price = $row_cart['p_price'];
@@ -59,6 +59,7 @@
             $run_delete = mysqli_query($conn, $delete_cart);
             $update_total = "UPDATE products set product_total=product_total-$product_quantity where product_id='$product_id'";
             $run_update_total = mysqli_query($conn, $update_total);
+            echo $customer_id;
             echo "
                 <div class='popup'>
                 <div class='popup__content'>
@@ -66,8 +67,8 @@
                         <img src='assets/icon-location.svg' alt='>
                     </div>
                     <div class='popup__text'>
-                        <h4 class='popup__title'>Đặt hàng thành công!</h4>
-                        <p class='popup__desc'>Cảm ơn bạn đã đặt hàng</p>
+                        <h4 class='popup__title'>Cảm ơn bạn!</h4>
+                        <p class='popup__desc'>Đã thanh toán bằng VNPAY thành công!</p>
                     </div>
                     <a href='customer/my_account.php?my_orders' class='popup__btn'>Xem đơn hàng</a>
                 </div>
@@ -75,7 +76,7 @@
             ";
         }
     }
-?>
+    ?>
 
     <?php } ?>
 </body>

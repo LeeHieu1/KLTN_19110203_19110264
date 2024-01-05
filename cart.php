@@ -6,11 +6,26 @@
     include("functions/functions.php");
 
 ?>
+<?php 
+include "VnpayClass.php";
+$payment = new payment;
+?>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$invoice_no = $_POST['invoice_no'];
+$product_total_price = $_POST['product_total_price'];
+$customer_id = $_POST['customer_id'];
+
+$payment-> vnpay_payment($invoice_no,$product_total_price);
+}
+?>
 
 <?php error_reporting(0);?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,128 +37,23 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137426789-2"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
+    window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
 
-        gtag('config', 'UA-137426789-2');
+    gtag('config', 'UA-137426789-2');
     </script>
 
 </head>
+
 <body>
     <!--Navigation-->
-    <nav class="mainNav">
-        <div class="mainNav__logo">
-            <a href="index.php"><img src="assets/images/logo.svg" alt=""></a>
-        </div>
-        <div class="mainNav__wrapper">
-            <div class="mainNav__links">
-                <a class="mainNav__link" href="index.php">Trang chủ</a>
-                <a class="mainNav__link" href="shop.php">Cửa hàng</a>
-                <a class="mainNav__link" href="customer/my_account.php?my_orders">Tài khoản</a>
-                <a class="mainNav__link active" href="cart.php">Giỏ hàng</a>
-                <a class="mainNav__link" href="contacts.php">Liên hệ</a>
-            </div>
-        </div>
-
-        <div class="mainNav__menu">
-            <form action="result.php" method="get">
-                <div class="mainNav__input">
-                    <input type="search" name="user_query" placeholder="Tìm kiếm ...">
-                    <button class="mainNav__btnSearch" type="submit"> <img src="assets/icon-search.svg" alt=""></button>
-                </div>
-            </form>
-            <a href="cart.php">
-                <div class="mainNav__shoppingCart">
-                    <?xml version="1.0"?>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 489 489" style="enable-background:new 0 0 489 489;" xml:space="preserve" width="512px" height="512px"><g><g>
-                        <path d="M440.1,422.7l-28-315.3c-0.6-7-6.5-12.3-13.4-12.3h-57.6C340.3,42.5,297.3,0,244.5,0s-95.8,42.5-96.6,95.1H90.3   c-7,0-12.8,5.3-13.4,12.3l-28,315.3c0,0.4-0.1,0.8-0.1,1.2c0,35.9,32.9,65.1,73.4,65.1h244.6c40.5,0,73.4-29.2,73.4-65.1   C440.2,423.5,440.2,423.1,440.1,422.7z M244.5,27c37.9,0,68.8,30.4,69.6,68.1H174.9C175.7,57.4,206.6,27,244.5,27z M366.8,462   H122.2c-25.4,0-46-16.8-46.4-37.5l26.8-302.3h45.2v41c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5v-41h139.3v41   c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5v-41h45.2l26.9,302.3C412.8,445.2,392.1,462,366.8,462z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/>
-                    </g></g> </svg>
-                    <span class="mainNav__itemNumber"><?php items(); ?></span>
-                </div>
-            </a>
-
-            <div class="mainNav__profile">
-                <?php
-                
-                    if (!isset($_SESSION['customer_email'])) {
-
-                        echo "
-                            <a href='customer/login.php'>
-                                <div class='mainNav__profileImage'>
-                                    <img src='customer/customer_images/customer_default.png' title='Đăng Nhập' alt=''>
-                                </div>
-                            </a>
-                        ";
-
-                    } else {
-
-                        $session_email = $_SESSION['customer_email'];
-
-                        $get_customer = "select * from customers where customer_email='$session_email'";
-
-                        $run_customer = mysqli_query($conn, $get_customer);
-
-                        $row_customer = mysqli_fetch_array($run_customer);
-
-                            $customer_name = $row_customer['customer_name'];
-
-                            $customer_image = $row_customer['customer_image'];
-                            
-                        if ($customer_image=='') {
-
-                            echo "
-                                <div class='mainNav__profileImage'>
-                                    <img src='customer/customer_images/customer_default_2.png' alt=''>
-                                </div>
-                            ";
-
-                        } else {
-
-                            echo "
-                                <div class='mainNav__profileImage'>
-                                    <img src='customer/customer_images/$customer_image' alt=''>
-                                </div>
-                            ";
-                        }
-                    }
-                
-                ?>
-
-                <div class="mainNav__profileMenu">
-                    <a href="customer/my_account.php?my_orders" class="mainNav__profileText account"> <?xml version="1.0"?>
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 483.5 483.5" style="enable-background:new 0 0 483.5 483.5;" xml:space="preserve" width="512px" height="512px"><g><g>
-                            <g>
-                                <path d="M430.75,471.2v-67.8c0-83.9-55-155.2-130.7-179.8c36.4-20.5,61.1-59.5,61.1-104.2c0-65.8-53.6-119.4-119.4-119.4    s-119.4,53.6-119.4,119.4c0,44.7,24.7,83.7,61.1,104.2c-75.8,24.6-130.7,95.9-130.7,179.8v67.8c0,6.8,5.5,12.3,12.3,12.3h353.6    C425.25,483.4,430.75,478,430.75,471.2z M146.75,119.4c0-52.3,42.6-94.9,94.9-94.9s94.9,42.6,94.9,94.9s-42.6,94.9-94.9,94.9    S146.75,171.7,146.75,119.4z M406.25,458.9H77.05v-55.6c0-90.7,73.8-164.6,164.6-164.6s164.6,73.8,164.6,164.6V458.9z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/>
-                            </g>
-                        </g></g> </svg>
-                        Hồ sơ</a>
-                    <a href="customer/my_account.php?edit_account" class="mainNav__profileText"> <?xml version="1.0"?>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="512px" viewBox="0 0 431.66 431" width="512px"><g><path d="m75.375 370.960938c2.796875 1.996093 6.421875 2.417968 9.601562 1.117187l110.167969-45.09375c1.625-.664063 3.046875-1.746094 4.121094-3.132813l161.113281-208.03125c10.308594-13.3125 14.863282-30.203124 12.636719-46.898437-2.222656-16.691406-11.039063-31.800781-24.480469-41.949219l-18.53125-14c-27.578125-20.683594-66.644531-15.457031-87.816406 11.75l-161.917969 209.515625c-1.230469 1.597657-1.953125 3.53125-2.070312 5.542969l-7 122.46875c-.195313 3.429688 1.382812 6.71875 4.175781 8.710938zm21.6875-110.753907 73.585938 55.1875-78.578126 32.160157zm92.070312 44.050781-87.175781-65.378906 131.488281-170.140625 86.964844 66.019531zm68.878907-267.308593c14.453125-18.566407 41.113281-22.136719 59.9375-8.019531l18.53125 14c9.175781 6.925781 15.191406 17.238281 16.710937 28.632812 1.519532 11.394531-1.589844 22.921875-8.628906 32.011719l-11.90625 15.371093-86.980469-66.03125zm0 0" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/><path d="m421.660156 411.367188h-411.660156c-5.523438 0-10 4.476562-10 10 0 5.523437 4.476562 10 10 10h411.660156c5.523438 0 10-4.476563 10-10 0-5.523438-4.476562-10-10-10zm0 0" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/></g> </svg>
-                        Chỉnh sửa hồ sơ</a>
-                    <a href="customer/my_account.php?change_password" class="mainNav__profileText"> <?xml version="1.0"?>
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 478.703 478.703" style="enable-background:new 0 0 478.703 478.703;" xml:space="preserve" width="512px" height="512px"><g><g>
-                            <g>
-                                <path d="M454.2,189.101l-33.6-5.7c-3.5-11.3-8-22.2-13.5-32.6l19.8-27.7c8.4-11.8,7.1-27.9-3.2-38.1l-29.8-29.8    c-5.6-5.6-13-8.7-20.9-8.7c-6.2,0-12.1,1.9-17.1,5.5l-27.8,19.8c-10.8-5.7-22.1-10.4-33.8-13.9l-5.6-33.2    c-2.4-14.3-14.7-24.7-29.2-24.7h-42.1c-14.5,0-26.8,10.4-29.2,24.7l-5.8,34c-11.2,3.5-22.1,8.1-32.5,13.7l-27.5-19.8    c-5-3.6-11-5.5-17.2-5.5c-7.9,0-15.4,3.1-20.9,8.7l-29.9,29.8c-10.2,10.2-11.6,26.3-3.2,38.1l20,28.1    c-5.5,10.5-9.9,21.4-13.3,32.7l-33.2,5.6c-14.3,2.4-24.7,14.7-24.7,29.2v42.1c0,14.5,10.4,26.8,24.7,29.2l34,5.8    c3.5,11.2,8.1,22.1,13.7,32.5l-19.7,27.4c-8.4,11.8-7.1,27.9,3.2,38.1l29.8,29.8c5.6,5.6,13,8.7,20.9,8.7c6.2,0,12.1-1.9,17.1-5.5    l28.1-20c10.1,5.3,20.7,9.6,31.6,13l5.6,33.6c2.4,14.3,14.7,24.7,29.2,24.7h42.2c14.5,0,26.8-10.4,29.2-24.7l5.7-33.6    c11.3-3.5,22.2-8,32.6-13.5l27.7,19.8c5,3.6,11,5.5,17.2,5.5l0,0c7.9,0,15.3-3.1,20.9-8.7l29.8-29.8c10.2-10.2,11.6-26.3,3.2-38.1    l-19.8-27.8c5.5-10.5,10.1-21.4,13.5-32.6l33.6-5.6c14.3-2.4,24.7-14.7,24.7-29.2v-42.1    C478.9,203.801,468.5,191.501,454.2,189.101z M451.9,260.401c0,1.3-0.9,2.4-2.2,2.6l-42,7c-5.3,0.9-9.5,4.8-10.8,9.9    c-3.8,14.7-9.6,28.8-17.4,41.9c-2.7,4.6-2.5,10.3,0.6,14.7l24.7,34.8c0.7,1,0.6,2.5-0.3,3.4l-29.8,29.8c-0.7,0.7-1.4,0.8-1.9,0.8    c-0.6,0-1.1-0.2-1.5-0.5l-34.7-24.7c-4.3-3.1-10.1-3.3-14.7-0.6c-13.1,7.8-27.2,13.6-41.9,17.4c-5.2,1.3-9.1,5.6-9.9,10.8l-7.1,42    c-0.2,1.3-1.3,2.2-2.6,2.2h-42.1c-1.3,0-2.4-0.9-2.6-2.2l-7-42c-0.9-5.3-4.8-9.5-9.9-10.8c-14.3-3.7-28.1-9.4-41-16.8    c-2.1-1.2-4.5-1.8-6.8-1.8c-2.7,0-5.5,0.8-7.8,2.5l-35,24.9c-0.5,0.3-1,0.5-1.5,0.5c-0.4,0-1.2-0.1-1.9-0.8l-29.8-29.8    c-0.9-0.9-1-2.3-0.3-3.4l24.6-34.5c3.1-4.4,3.3-10.2,0.6-14.8c-7.8-13-13.8-27.1-17.6-41.8c-1.4-5.1-5.6-9-10.8-9.9l-42.3-7.2    c-1.3-0.2-2.2-1.3-2.2-2.6v-42.1c0-1.3,0.9-2.4,2.2-2.6l41.7-7c5.3-0.9,9.6-4.8,10.9-10c3.7-14.7,9.4-28.9,17.1-42    c2.7-4.6,2.4-10.3-0.7-14.6l-24.9-35c-0.7-1-0.6-2.5,0.3-3.4l29.8-29.8c0.7-0.7,1.4-0.8,1.9-0.8c0.6,0,1.1,0.2,1.5,0.5l34.5,24.6    c4.4,3.1,10.2,3.3,14.8,0.6c13-7.8,27.1-13.8,41.8-17.6c5.1-1.4,9-5.6,9.9-10.8l7.2-42.3c0.2-1.3,1.3-2.2,2.6-2.2h42.1    c1.3,0,2.4,0.9,2.6,2.2l7,41.7c0.9,5.3,4.8,9.6,10,10.9c15.1,3.8,29.5,9.7,42.9,17.6c4.6,2.7,10.3,2.5,14.7-0.6l34.5-24.8    c0.5-0.3,1-0.5,1.5-0.5c0.4,0,1.2,0.1,1.9,0.8l29.8,29.8c0.9,0.9,1,2.3,0.3,3.4l-24.7,34.7c-3.1,4.3-3.3,10.1-0.6,14.7    c7.8,13.1,13.6,27.2,17.4,41.9c1.3,5.2,5.6,9.1,10.8,9.9l42,7.1c1.3,0.2,2.2,1.3,2.2,2.6v42.1H451.9z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/>
-                                <path d="M239.4,136.001c-57,0-103.3,46.3-103.3,103.3s46.3,103.3,103.3,103.3s103.3-46.3,103.3-103.3S296.4,136.001,239.4,136.001    z M239.4,315.601c-42.1,0-76.3-34.2-76.3-76.3s34.2-76.3,76.3-76.3s76.3,34.2,76.3,76.3S281.5,315.601,239.4,315.601z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/>
-                            </g>
-                        </g></g> </svg>
-                        Cài đặt tài khoản</a>
-                    <a href="customer/logout.php" class="mainNav__profileText"> <?xml version="1.0"?>
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56 56" style="enable-background:new 0 0 56 56;" xml:space="preserve" width="512px" height="512px"><g><g>
-                            <path d="M35.31,5.042c-0.532-0.155-1.085,0.15-1.24,0.68s0.149,1.085,0.68,1.24C44.906,9.932,52,19.405,52,30   c0,13.233-10.767,24-24,24S4,43.233,4,30C4,19.392,11.105,9.915,21.279,6.953c0.53-0.154,0.835-0.709,0.681-1.239   c-0.153-0.53-0.708-0.839-1.239-0.681C9.698,8.241,2,18.508,2,30c0,14.337,11.663,26,26,26s26-11.663,26-26   C54,18.522,46.314,8.26,35.31,5.042z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/>
-                            <path d="M28,27c0.553,0,1-0.447,1-1V1c0-0.553-0.447-1-1-1s-1,0.447-1,1v25C27,26.553,27.447,27,28,27z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#666666"/>
-                        </g></g> </svg>
-                        Đăng xuất</a>
-                </div>
-            </div>
-
-            <div class="mainNav__icon"><span></span></div>
-        </div>
-    </nav>
+    <?php
+        include 'nav.php';
+    ?>
     <!--end Navigation-->
 
     <!--Content-->
@@ -172,32 +82,19 @@
                             <tbody>
                                 <?php
                                     $ip_add = getRealIpUser();
-
                                     $get_cart = "SELECT * FROM cart WHERE ip_add='$ip_add'";
-
                                     $run_cart = mysqli_query($conn, $get_cart);
-
                                     $count_cart = mysqli_num_rows($run_cart);
-
                                     $total = 0;
-
                                     while ($row_cart = mysqli_fetch_array($run_cart)) {
-
                                         $product_id = $row_cart['product_id'];
-
                                         $cart_id = $row_cart['cart_id'];
-
                                         $product_size = $row_cart['p_size'];
-
                                         $product_price = $row_cart['p_price'];
                                         $product_price_format = number_format($product_price, 0, ',', '.');
-
                                         $product_quantity = $row_cart['p_quantity'];
-
                                         $get_products = "SELECT * FROM products WHERE product_id='$product_id'";
-
                                         $run_products = mysqli_query($conn, $get_products);
-
                                         while ($row_products = mysqli_fetch_array($run_products)) {
 
                                             $product_title = $row_products['product_title'];
@@ -224,7 +121,9 @@
                                         </a>
                                     </td>
                                     <td data-label="Số lượng">
-                                        <input class="quantity inputNumber" type="text" name="quantity" data-product_id="<?= $product_id; ?>" value="<?= $_SESSION['product_quantity']; ?>">
+                                        <input class="quantity inputNumber" type="text" name="quantity"
+                                            data-product_id="<?= $product_id; ?>"
+                                            value="<?= $_SESSION['product_quantity']; ?>">
                                     </td>
                                     <td data-label="Đơn giá">
                                         <?php 
@@ -236,28 +135,24 @@
                                         ?>
                                     </td>
                                     <td data-label="Kích thước">
-                                            <?php if($product_size==1): ?>
-                                                <?php echo 'S';?>
-                                            <?php elseif($product_size==2): ?>
-                                                <?php echo 'M';?>
-                                             <?php elseif($product_size==3): ?>
-                                                <?php echo 'L';?>
-                                            <?php endif; ?>
-                                        <!-- ?php 
-                                            if ($count_cart == "") {
+                                        <?php if($product_size==1): ?>
+                                        <?php echo 'S';?>
+                                        <?php elseif($product_size==2): ?>
+                                        <?php echo 'M';?>
+                                        <?php elseif($product_size==3): ?>
+                                        <?php echo 'L';?>
+                                        <?php endif; ?>
 
-                                            } else {
-                                                echo $product_size;
-                                            }
-                                        ?> -->
                                     </td>
-                                    <!-- <td>
-                                        <a href="?delete_one_product_cart=<?= $cart_id; ?>" title="xoa_san_pham_khoi_gio_hang">Xóa</a>
-                                    </td> -->
-                                    <td data-label="Xoá">
-                                        <input class="inputCheckBox" type="checkbox" id="check" name="remove[]" value="<?= $product_id; ?>">
+                                    <td>
+                                        <a href="cart.php?remove_from_cart=<?= $cart_id; ?>"
+                                            title="xoa_san_pham_khoi_gio_hang">Xóa</a>
+                                    </td>
+                                    <!-- <td data-label="Xoá">
+                                        <input class="inputCheckBox" type="checkbox" id="check" name="remove[]"
+                                            value="?= $product_id; ?>">
                                         <label for="check"></label>
-                                    </td>
+                                    </td> -->
                                     <td data-label="Giá">
                                         <?php 
                                             if ($count_cart == "") {
@@ -298,7 +193,91 @@
                         </table>
                     </div>
 
+                    <?php
+                        if (isset($_GET['remove_from_cart'])) {
+                            remove_from_cart();
+                        }
+
+                        function remove_from_cart() {
+                            global $conn;
+                            
+                            if (isset($_GET['remove_from_cart'])) {
+                                $remove_id = $_GET['remove_from_cart'];
+
+                                $select_product = "SELECT * FROM cart WHERE cart_id=?";
+                                $stmt = mysqli_prepare($conn, $select_product);
+                                mysqli_stmt_bind_param($stmt, "i", $remove_id);
+                                mysqli_stmt_execute($stmt);
+                                $result = mysqli_stmt_get_result($stmt);
+                                $row = mysqli_fetch_assoc($result);
+
+                                $product_id = $row['product_id'];
+                                $product_size = $row['p_size'];
+                                $product_quantity = $row['p_quantity'];
+
+                                $column = "";
+                                switch ($product_size) {
+                                    case '1':
+                                        $column = "product_quantity_size_s";
+                                        break;
+                                    case '2':
+                                        $column = "product_quantity_size_m";
+                                        break;
+                                    case '3':
+                                        $column = "product_quantity_size_l";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                $column_all = "";
+                                switch ($product_size) {
+                                    case '1':
+                                        $column_all = "product_quantity_s";
+                                        break;
+                                    case '2':
+                                        $column_all = "product_quantity_m";
+                                        break;
+                                    case '3':
+                                        $column_all = "product_quantity_l";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                if ($column !== "" && $column_all !== "") {
+                                    $update_quantity = "UPDATE products SET $column = $column + $product_quantity WHERE product_id=?";
+                                    $stmt = mysqli_prepare($conn, $update_quantity);
+                                    mysqli_stmt_bind_param($stmt, "i", $product_id);
+                                    $update_success_products = mysqli_stmt_execute($stmt);
+
+                                    $update_quantity_all = "UPDATE products_quantity_size SET $column_all = $column_all + $product_quantity WHERE product_id=?";
+                                    $stmt_all = mysqli_prepare($conn, $update_quantity_all);
+                                    mysqli_stmt_bind_param($stmt_all, "i", $product_id);
+                                    $update_success_quantity = mysqli_stmt_execute($stmt_all);
+
+                                    if ($update_success_products && $update_success_quantity) {
+                                        $delete_cart_id_product = "DELETE FROM cart WHERE cart_id=?";
+                                        $stmt = mysqli_prepare($conn, $delete_cart_id_product);
+                                        mysqli_stmt_bind_param($stmt, "i", $remove_id);
+                                        $delete_success_one = mysqli_stmt_execute($stmt);
+
+                                        if ($delete_success_one) {
+                                            echo "<script>alert('Đã xóa sản phẩm khỏi giỏ hàng');</script>";
+                                            echo "<script>window.open('cart.php','_self')</script>";
+                                        } else {
+                                            echo "Xóa không thành công"; 
+                                        }
+                                    } else {
+                                        echo "Cập nhật số lượng sản phẩm thất bại";
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+
                     <!--Coupon-->
+
                     <div class="coupon">
                         <label for="coupon">Mã giảm giá</label>
                         <div class="couponWrapper">
@@ -306,7 +285,39 @@
                             <button type="submit" name="apply_coupon" class="coupon__btn"><span>Sử dụng</span></button>
                         </div>
                     </div>
+
                     <!--end Coupon-->
+
+                    <!--httt-->
+                    <div class="coupon">
+
+                        <label for="coupon">Hình thức thanh toán</label>
+                        <div class="couponWrapper">
+                            <form action="" method="post">
+                                <?php foreach ($run_cart as $key) :
+                                    extract($key);
+                                    $sub_total = $product_price*$product_quantity;
+
+                                    $_SESSION['product_quantity'] = $product_quantity;
+
+                                    $invoice_no = 'DH' . mt_rand(10000, 999999);
+                                    ?>
+                                <input type="hidden" name="invoice_no" value="<?=$invoice_no?>">
+
+                                <input type="hidden" name="product_total_price" value="<?=$sub_total?>">
+
+                                <?php endforeach; ?>
+                                <button type="submit" name="redirect" class="coupon__btn"><span>
+                                        Thanh toán qua VNPAY</span>
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!--end httt-->
+
+
+
 
                     <div class="footTable">
                         <div class="footTable__btn">
@@ -315,33 +326,25 @@
                             </a>
                         </div>
                         <div class="footTable__btn">
-                            <button
-                                <?php 
+                            <!-- <button ?php 
                                     if ($count_cart == "") {
                                         echo "disabled";
                                     } else {
                                         
                                     }
-                                ?>
-                             class="footTable__btnItem update" type="submit" name="update">
+                                ?> class="footTable__btnItem update" type="submit" name="update">
                                 <img src="assets/icon-update.svg" alt="">
                                 <span>Cập Nhật Giỏ Hàng</span>
-                            </button>
+                            </button> -->
                             <!-- php get customer_id -->
+
                             <?php
-                                
                                 if (isset($_SESSION['customer_email'])) {
-
                                     $session_email = $_SESSION['customer_email'];
-
-                                    $get_customer = "select * from customers where customer_email='$session_email'";
-            
+                                    $get_customer = "SELECT * from customers where customer_email='$session_email'";
                                     $run_customer = mysqli_query($conn, $get_customer);
-            
                                     $row_customer = mysqli_fetch_array($run_customer);
-            
                                         $customer_id = $row_customer['customer_id'];
-
                                         echo "
                                             <div class='footTable__orderWrapper'>
                                                 <a class='footTable__order' href='order.php?customer_id=$customer_id'>
@@ -353,7 +356,6 @@
                                             </div>
                                         ";
                                 } else {
-
                                     echo "
                                         <div class='footTable__orderWrapper'>
                                             <a class='footTable__order' href='customer/login.php'>
@@ -455,34 +457,21 @@
             <?php
 
                 function update_cart() {
-
                     global $conn;
-
                     if (isset($_POST['update'])) {
-
                         foreach($_POST['remove'] as $remove_id) {
-
                             $delete_product = "DELETE FROM cart WHERE product_id='$remove_id'";
-
                             $run_delete = mysqli_query($conn, $delete_product);
-
                             if ($run_delete) {
-
                                 echo "<script>window.open('cart.php','_self')</script>";
-
                             }
-
                         }
-
                     }
-
                 }
-
                 echo $update_cart = update_cart();
-            
             ?>
 
-                <?php
+            <?php
                 if (isset($_GET['delete_one_product_cart'])) {
                     delete_one_product_cart(); 
                 }
@@ -521,7 +510,25 @@
                                 </p>
                                 <a class="receipt__btn" href="customer/my_account.php?my_orders">Xem đơn hàng</a>
                             </div>
+                            <!--Coupon-->
+                            <div class="coupon">
+                                <label for="coupon">Địa chỉ giao hàng</label>
+                                <div class="cart-section-right-select">
+                                    <select name="" id="city">
+                                        <option value="">Tỉnh/Tp</option>
+                                    </select>
+                                    <select name="" id="district">
+                                        <option value="">Quận/huyện</option>
+                                    </select>
+                                    <select name="" id="ward">
+                                        <option value="">Phường/xã</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="submit_button">them</button>
 
+
+                            <!--end Coupon-->
                             <div class="price">
                                 <div class="price__pricing">
                                     <p class="price__pricingTitle">Tổng phụ</p>
@@ -575,19 +582,16 @@
             <p class="footer__text">A project made by <a href="Lê Hiếu.github.io" target="_blank" rel="noopener"
                     class="link">Lê Hiếu</a></p>
             <div class="footer__icons">
-    
-                <a href="#" target="_blank" rel="noopener"
-                    class="footer__icon linkedin"><span></span>
+
+                <a href="#" target="_blank" rel="noopener" class="footer__icon linkedin"><span></span>
                     <p>Linkedin</p>
                 </a>
-    
-                <a href="#" target="_blank" rel="noopener"
-                    class="footer__icon dribbble"><span></span>
+
+                <a href="#" target="_blank" rel="noopener" class="footer__icon dribbble"><span></span>
                     <p>Dribbble</p>
                 </a>
-    
-                <a href="#" target="_blank" rel="noopener"
-                    class="footer__icon codepen"><span></span>
+
+                <a href="#" target="_blank" rel="noopener" class="footer__icon codepen"><span></span>
                     <p>Codepen</p>
                 </a>
             </div>
@@ -597,42 +601,48 @@
 
     <!--Script Files-->
     <script src="js/swiper.min.js"></script>
-    
+
     <!--General-->
     <script src="js/main.js"></script>
     <script src="js/backTop.js"></script>
     <!--Ajax-->
     <script src="js/jquery-331.min.js"></script>
     <script>
+    $(document).ready(function(data) {
 
-        $(document).ready(function(data) {
+        $(document).on('keyup', '.quantity', function() {
 
-            $(document).on('keyup','.quantity',function() {
+            var id = $(this).data("product_id");
+            var quantity = $(this).val();
 
-                    var id = $(this).data("product_id");
-                    var quantity = $(this).val();
+            if (quantity != '') {
 
-                    if(quantity !='') {
+                $.ajax({
 
-                        $.ajax({
+                    url: "change.php",
+                    method: "POST",
+                    data: {
+                        id: id,
+                        quantity: quantity
+                    },
 
-                            url: "change.php",
-                            method: "POST",
-                            data:{id:id, quantity:quantity},
-
-                            success:function() {
-                                $("body").load("cart_body.php");
-                            }
-
-                        });
-
+                    success: function() {
+                        $("body").load("cart_body.php");
                     }
 
-            });
+                });
+
+            }
 
         });
 
+    });
     </script>
     <!--end Script Files-->
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+<script src="js/apiprovince.js"></script>
+
 </html>

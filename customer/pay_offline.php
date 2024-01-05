@@ -11,8 +11,8 @@
 
         <tbody>
             <tr>
-                <td data-label="Tài khoản" colspan="4">TA CHI BAO | Sacombank | Số tài khoản 07 0071 531 463</td>
-                <td data-label="Số tài khoản" colspan="4">0071 531 463 | Sđt: 0836730193 | Tên: Ta Chi Bao</td>
+                <td data-label="Tài khoản" colspan="4">Test</td>
+                <td data-label="Số tài khoản" colspan="4">Test</td>
             </tr>
         </tbody>
     </table>
