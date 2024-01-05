@@ -28,7 +28,10 @@
         unlink($product_image_2);
         unlink($product_image_3);
 
-        $delete_product = "delete from products where product_id='$delete_id'";
+        $delete_product = "DELETE products, products_quantity_size
+        FROM products
+        JOIN products_quantity_size ON products.product_id = products_quantity_size.product_id
+        WHERE products.product_id = '$delete_id'";
 
         $run_delete = mysqli_query($conn, $delete_product);
 

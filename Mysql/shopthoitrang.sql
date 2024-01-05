@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3307
--- Generation Time: Jan 05, 2024 at 10:56 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th1 05, 2024 lúc 07:53 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `shopthoitrang`
+-- Cơ sở dữ liệu: `shopthoitrang`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admins`
+-- Cấu trúc bảng cho bảng `admins`
 --
 
 CREATE TABLE `admins` (
@@ -36,7 +36,7 @@ CREATE TABLE `admins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `admins`
+-- Đang đổ dữ liệu cho bảng `admins`
 --
 
 INSERT INTO `admins` (`admin_id`, `admin_name`, `admin_email`, `admin_password`, `admin_image`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `admins` (`admin_id`, `admin_name`, `admin_email`, `admin_password`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- Cấu trúc bảng cho bảng `cart`
 --
 
 CREATE TABLE `cart` (
@@ -54,14 +54,13 @@ CREATE TABLE `cart` (
   `ip_add` varchar(255) NOT NULL,
   `p_size` varchar(255) NOT NULL,
   `p_price` varchar(255) NOT NULL,
-  `p_quantity` int(10) NOT NULL,
-  `cus_gmail` varchar(255) DEFAULT NULL
+  `p_quantity` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Cấu trúc bảng cho bảng `categories`
 --
 
 CREATE TABLE `categories` (
@@ -71,7 +70,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `categories`
+-- Đang đổ dữ liệu cho bảng `categories`
 --
 
 INSERT INTO `categories` (`category_id`, `category_title`, `category_desc`) VALUES
@@ -81,7 +80,7 @@ INSERT INTO `categories` (`category_id`, `category_title`, `category_desc`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coupons`
+-- Cấu trúc bảng cho bảng `coupons`
 --
 
 CREATE TABLE `coupons` (
@@ -95,7 +94,7 @@ CREATE TABLE `coupons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `coupons`
+-- Đang đổ dữ liệu cho bảng `coupons`
 --
 
 INSERT INTO `coupons` (`coupon_id`, `product_id`, `coupon_title`, `coupon_price`, `coupon_code`, `coupon_limit`, `coupon_used`) VALUES
@@ -104,7 +103,7 @@ INSERT INTO `coupons` (`coupon_id`, `product_id`, `coupon_title`, `coupon_price`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
+-- Cấu trúc bảng cho bảng `customers`
 --
 
 CREATE TABLE `customers` (
@@ -115,22 +114,23 @@ CREATE TABLE `customers` (
   `customer_address` varchar(255) NOT NULL,
   `customer_password` varchar(255) NOT NULL,
   `customer_image` text NOT NULL,
-  `customer_ip` int(11) DEFAULT NULL
+  `customer_ip` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `customers`
+-- Đang đổ dữ liệu cho bảng `customers`
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_email`, `customer_phone`, `customer_address`, `customer_password`, `customer_image`, `customer_ip`) VALUES
-(28, 'User Test', 'user@gmail.com', '0123456789', 'HCM', '$2y$10$UKYpGB1LAmMXe1Fv9NfiH.FWiV0kZ0UzylPEpp1CIyDNGA6FfeUI2', '186459515_515604526308215_5245455360375216631_n.jpg', 0),
-(31, 'abc', 'abc@gmail.com', '0123456789', 'abc', '$2y$10$sP3naXkmq2SNv5QJlhvno.FSU9Pec.EPIEWHTZjV3t1yzAh0mSMQC', '255272064_3131485477177374_3320261107918760209_n.jpg', 0),
-(34, 'hieu', 'hle24681012@gmail.com', '0123456789', 'qwe', '$2y$10$uov11f6exbrCYFA4iIn2Aey1/78VoCl7o/xNf.ia7fU3KvV8Q2klO', '255003568_1966905150150034_4665264044901844995_n.jpg', 0);
+(28, 'User Test', 'user@gmail.com', '0123456789', 'HCM', '$2y$10$UKYpGB1LAmMXe1Fv9NfiH.FWiV0kZ0UzylPEpp1CIyDNGA6FfeUI2', '186459515_515604526308215_5245455360375216631_n.jpg', '::1'),
+(30, 'User1', 'user1@gmail.com', '028395', 'abc', '$2y$10$1pcJc8Cr/nqROifWaHGk.eprkyGv3nsfPp./SMFsEmWCL1YjST0b2', '2023-10-04_02-58-33.png', '::1'),
+(31, 'abc', 'abc@gmail.com', '0123456789', 'abc', '$2y$10$sP3naXkmq2SNv5QJlhvno.FSU9Pec.EPIEWHTZjV3t1yzAh0mSMQC', '00074-4146499890.png', '::1'),
+(32, 'demo', 'demo@gmail.com', '0938290761', '64 Thá»§ Äá»©c , Tp Há»“ ChÃ­ Minh', '$2y$10$9t9zVSuljCjvGSwcq9eYwuqxYomrVM5mlvSxaqnerN2CgkukcpZgG', 'de_bai_tap.jpg', '::1');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer_orders`
+-- Cấu trúc bảng cho bảng `customer_orders`
 --
 
 CREATE TABLE `customer_orders` (
@@ -145,10 +145,21 @@ CREATE TABLE `customer_orders` (
   `order_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `customer_orders`
+--
+
+INSERT INTO `customer_orders` (`order_id`, `customer_id`, `due_amount`, `invoice_no`, `product_id`, `product_size`, `product_quantity`, `order_date`, `order_status`) VALUES
+(2, 32, 5900000, 'DH_VNPAY441925', 33, '1', 10, '2024-01-03', 'Complete'),
+(3, 32, 5900000, 'DH_VNPAY108394', 33, '1', 10, '2024-01-03', 'Complete'),
+(5, 32, 5900000, 'DH_VNPAY944020', 33, '2', 10, '2024-01-03', 'Complete'),
+(6, 32, 8850000, 'DH_VNPAY442349', 33, '1', 15, '2024-01-03', 'Complete'),
+(7, 32, 5900000, 'DH160464', 33, '2', 10, '2024-01-04', 'Pending');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Cấu trúc bảng cho bảng `products`
 --
 
 CREATE TABLE `products` (
@@ -172,7 +183,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `products`
+-- Đang đổ dữ liệu cho bảng `products`
 --
 
 INSERT INTO `products` (`product_id`, `product_category_id`, `category_id`, `date`, `product_title`, `product_price`, `product_image_1`, `product_image_2`, `product_image_3`, `product_keywords`, `product_description`, `product_label`, `product_sale`, `product_total`, `product_quantity_size_s`, `product_quantity_size_m`, `product_quantity_size_l`) VALUES
@@ -186,13 +197,13 @@ INSERT INTO `products` (`product_id`, `product_category_id`, `category_id`, `dat
 (28, 9, 2, '2024-01-03 08:01:25', 'Nono Top, Nuno Skirt', '840000', 'product_images/65719129_2324549207805988_7892096113996464128_o.jpg', 'product_images/65370961_2324549577805951_8650683996709060608_o.jpg', 'product_images/65188678_2324549714472604_7817738556381593600_o.jpg', 'top skirt', 'Ngọt ngào nhưng vẫn vô cùng cá tính với những mẫu thiết kế mới nhất trong BST SUMMER VIBE của #Lalla', 'new', '0', 59, 11, 12, 13),
 (30, 1, 2, '2024-01-03 08:01:36', 'Dada Dress', '690000', 'product_images/97478285_2596228327304740_6979566454387507200_o (1).jpg', 'product_images/96809365_2596228173971422_4155707954999328768_o.jpg', 'product_images/96809365_2596228173971422_4155707954999328768_o.jpg', 'dress, vay', 'BST mới nhất của Lalla lấy cảm hứng từ bộ phim Crash Landing on You - Hạ cánh nơi anh ✈️ với hình ảnh người phụ nữ hiện đại, năng động và đầy quyền lực. Chất tơ xốp Hàn bên ngoài và đầm lụa lót b&a', 'sale', '590000', 59, 5, 8, 10),
 (31, 1, 2, '2024-01-05 06:23:29', 'Doly Dress', '590000', 'product_images/106719668.jpg', 'product_images/107693707.jpg', 'product_images/107663751.jpg', 'dress, vay', 'BST S/S 2020 của Lalla lấy cảm hứng từ khu vườn thiên nhiên với những sắc hoa pastel hồng, tím, baby blue nhẹ nhàng thanh thoát sẽ giúp mùa hè của bạn trở nên tươi trẻ và rực rỡ. Thiết kế độc quyền của thương hiệu thời trang Lalla. ', 'new', '0', 6, 40, 23, 27),
-(32, 1, 2, '2024-01-05 08:01:38', 'Lola Dress', '690000', 'product_images/129841855_2778718839055687_4921207847791622071_o.jpg', 'product_images/129646589_2778719239055647_5672869489056169002_o.jpg', 'product_images/129938944_2778719585722279_3449075532910701693_o.jpg', 'dress, vay', 'XMAS PREMIUM COLLECTION là BST thời trang cao cấp độc quyền từ thương hiệu #Lalla của diễn viên MIDU ra mắt đặc biệt cho mùa lễ hội. Với tiêu chí Giá trị cao - Giá thành ưu đãi. Những sản phẩm của #Lalla luôn ưu tiên cho chất lượng, form dáng và giá thành vô cùng ưu đãi chỉ #590k', 'sale', '590000', 1, 14, 10, 25),
-(33, 1, 2, '2024-01-05 09:31:13', 'Bata Dress', '590000', 'product_images/82196573_2481185252142382_7444610077085925376_o.jpg', 'product_images/81070717_2481184978809076_2107956170621714432_o.jpg', 'product_images/81090549_2481185388809035_7955383887327133696_o.jpg', 'dress, vay', 'Tết năm nay, hãy cùng Lalla, Midu và Jun Vũ tự tin trở thành người phụ nữ biết yêu thương và giải phóng chính bản thân mình bạn nhé.', 'new', '0', -208, 35, 40, 80);
+(32, 1, 2, '2024-01-05 06:25:02', 'Lola Dress', '690000', 'product_images/129841855_2778718839055687_4921207847791622071_o.jpg', 'product_images/129646589_2778719239055647_5672869489056169002_o.jpg', 'product_images/129938944_2778719585722279_3449075532910701693_o.jpg', 'dress, vay', 'XMAS PREMIUM COLLECTION là BST thời trang cao cấp độc quyền từ thương hiệu #Lalla của diễn viên MIDU ra mắt đặc biệt cho mùa lễ hội. Với tiêu chí Giá trị cao - Giá thành ưu đãi. Những sản phẩm của #Lalla luôn ưu tiên cho chất lượng, form dáng và giá thành vô cùng ưu đãi chỉ #590k', 'sale', '590000', 2, 14, 10, 25),
+(33, 1, 2, '2024-01-05 06:44:00', 'Bata Dress', '590000', 'product_images/82196573_2481185252142382_7444610077085925376_o.jpg', 'product_images/81070717_2481184978809076_2107956170621714432_o.jpg', 'product_images/81090549_2481185388809035_7955383887327133696_o.jpg', 'dress, vay', 'Tết năm nay, hãy cùng Lalla, Midu và Jun Vũ tự tin trở thành người phụ nữ biết yêu thương và giải phóng chính bản thân mình bạn nhé.', 'new', '0', -188, 45, 40, 80);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products_quantity_size`
+-- Cấu trúc bảng cho bảng `products_quantity_size`
 --
 
 CREATE TABLE `products_quantity_size` (
@@ -204,7 +215,7 @@ CREATE TABLE `products_quantity_size` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `products_quantity_size`
+-- Đang đổ dữ liệu cho bảng `products_quantity_size`
 --
 
 INSERT INTO `products_quantity_size` (`id`, `product_id`, `product_quantity_s`, `product_quantity_m`, `product_quantity_l`) VALUES
@@ -219,12 +230,12 @@ INSERT INTO `products_quantity_size` (`id`, `product_id`, `product_quantity_s`, 
 (9, 30, 5, 8, 10),
 (10, 31, 50, 23, 27),
 (11, 32, 14, 18, 25),
-(12, 33, 35, 40, 80);
+(12, 33, 45, 40, 80);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_categories`
+-- Cấu trúc bảng cho bảng `product_categories`
 --
 
 CREATE TABLE `product_categories` (
@@ -234,7 +245,7 @@ CREATE TABLE `product_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `product_categories`
+-- Đang đổ dữ liệu cho bảng `product_categories`
 --
 
 INSERT INTO `product_categories` (`product_category_id`, `product_category_title`, `product_category_desc`) VALUES
@@ -244,7 +255,7 @@ INSERT INTO `product_categories` (`product_category_id`, `product_category_title
 -- --------------------------------------------------------
 
 --
--- Table structure for table `slides`
+-- Cấu trúc bảng cho bảng `slides`
 --
 
 CREATE TABLE `slides` (
@@ -253,7 +264,7 @@ CREATE TABLE `slides` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `slides`
+-- Đang đổ dữ liệu cho bảng `slides`
 --
 
 INSERT INTO `slides` (`slide_id`, `slide_image`) VALUES
@@ -262,129 +273,129 @@ INSERT INTO `slides` (`slide_id`, `slide_image`) VALUES
 (3, 'slides_images/slide03.jpg');
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `admins`
+-- Chỉ mục cho bảng `admins`
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`);
 
 --
--- Indexes for table `cart`
+-- Chỉ mục cho bảng `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`cart_id`);
 
 --
--- Indexes for table `categories`
+-- Chỉ mục cho bảng `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `coupons`
+-- Chỉ mục cho bảng `coupons`
 --
 ALTER TABLE `coupons`
   ADD PRIMARY KEY (`coupon_id`);
 
 --
--- Indexes for table `customers`
+-- Chỉ mục cho bảng `customers`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
 
 --
--- Indexes for table `customer_orders`
+-- Chỉ mục cho bảng `customer_orders`
 --
 ALTER TABLE `customer_orders`
   ADD PRIMARY KEY (`order_id`);
 
 --
--- Indexes for table `products`
+-- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`);
 
 --
--- Indexes for table `products_quantity_size`
+-- Chỉ mục cho bảng `products_quantity_size`
 --
 ALTER TABLE `products_quantity_size`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `product_categories`
+-- Chỉ mục cho bảng `product_categories`
 --
 ALTER TABLE `product_categories`
   ADD PRIMARY KEY (`product_category_id`);
 
 --
--- Indexes for table `slides`
+-- Chỉ mục cho bảng `slides`
 --
 ALTER TABLE `slides`
   ADD PRIMARY KEY (`slide_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `admins`
+-- AUTO_INCREMENT cho bảng `admins`
 --
 ALTER TABLE `admins`
   MODIFY `admin_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `cart`
+-- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
+  MODIFY `cart_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
--- AUTO_INCREMENT for table `categories`
+-- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
   MODIFY `category_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `coupons`
+-- AUTO_INCREMENT cho bảng `coupons`
 --
 ALTER TABLE `coupons`
   MODIFY `coupon_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `customers`
+-- AUTO_INCREMENT cho bảng `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT for table `customer_orders`
+-- AUTO_INCREMENT cho bảng `customer_orders`
 --
 ALTER TABLE `customer_orders`
-  MODIFY `order_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `order_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
   MODIFY `product_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT for table `products_quantity_size`
+-- AUTO_INCREMENT cho bảng `products_quantity_size`
 --
 ALTER TABLE `products_quantity_size`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `product_categories`
+-- AUTO_INCREMENT cho bảng `product_categories`
 --
 ALTER TABLE `product_categories`
   MODIFY `product_category_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `slides`
+-- AUTO_INCREMENT cho bảng `slides`
 --
 ALTER TABLE `slides`
   MODIFY `slide_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
